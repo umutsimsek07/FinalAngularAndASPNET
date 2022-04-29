@@ -1,0 +1,415 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DB01Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Anketler">
+          <Key>
+            <PropertyRef Name="AnketId" />
+          </Key>
+          <Property Name="AnketId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AnketAdi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AnketUyeId" Type="int" Nullable="false" />
+          <Property Name="AnketKayTarih" Type="datetime" Nullable="false" />
+          <Property Name="AnketDuzTarih" Type="datetime" Nullable="false" />
+          <Property Name="AnketKategoriId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cevaplar">
+          <Key>
+            <PropertyRef Name="CevapId" />
+          </Key>
+          <Property Name="CevapId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CevapSoruId" Type="int" Nullable="false" />
+          <Property Name="CevapMetin" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CevapTarih" Type="datetime" Nullable="false" />
+          <Property Name="CevapUyeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="KategoriId" />
+          </Key>
+          <Property Name="KategoriId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KategoriAdi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sorular">
+          <Key>
+            <PropertyRef Name="SorularId" />
+          </Key>
+          <Property Name="SorularId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SoruAnketId" Type="int" Nullable="false" />
+          <Property Name="SoruMetin" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SoruKayTarih" Type="datetime" Nullable="false" />
+          <Property Name="SoruUyeId" Type="int" Nullable="false" />
+          <Property Name="SoruDuzTarih" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Uyeler">
+          <Key>
+            <PropertyRef Name="UyeId" />
+          </Key>
+          <Property Name="UyeId" Type="int" Nullable="false" />
+          <Property Name="UyeAdSoyad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UyeEposta" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UyeKayTarih" Type="datetime" Nullable="false" />
+          <Property Name="UyeYetki" Type="int" Nullable="false" />
+          <Property Name="UyeParola" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Anketler_ToKategoriler">
+          <End Role="Kategoriler" Type="Self.Kategoriler" Multiplicity="1" />
+          <End Role="Anketler" Type="Self.Anketler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="KategoriId" />
+            </Principal>
+            <Dependent Role="Anketler">
+              <PropertyRef Name="AnketKategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Anketler_ToUyeler">
+          <End Role="Uyeler" Type="Self.Uyeler" Multiplicity="1" />
+          <End Role="Anketler" Type="Self.Anketler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uyeler">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="Anketler">
+              <PropertyRef Name="AnketUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cevaplar_ToSorular">
+          <End Role="Sorular" Type="Self.Sorular" Multiplicity="1" />
+          <End Role="Cevaplar" Type="Self.Cevaplar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sorular">
+              <PropertyRef Name="SorularId" />
+            </Principal>
+            <Dependent Role="Cevaplar">
+              <PropertyRef Name="CevapSoruId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cevaplar_ToUyeler">
+          <End Role="Uyeler" Type="Self.Uyeler" Multiplicity="1" />
+          <End Role="Cevaplar" Type="Self.Cevaplar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uyeler">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="Cevaplar">
+              <PropertyRef Name="CevapUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sorular_ToAnketler">
+          <End Role="Anketler" Type="Self.Anketler" Multiplicity="1" />
+          <End Role="Sorular" Type="Self.Sorular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Anketler">
+              <PropertyRef Name="AnketId" />
+            </Principal>
+            <Dependent Role="Sorular">
+              <PropertyRef Name="SoruAnketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sorular_ToUyeler">
+          <End Role="Uyeler" Type="Self.Uyeler" Multiplicity="1" />
+          <End Role="Sorular" Type="Self.Sorular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uyeler">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="Sorular">
+              <PropertyRef Name="SoruUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB01ModelStoreContainer">
+          <EntitySet Name="Anketler" EntityType="Self.Anketler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cevaplar" EntityType="Self.Cevaplar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategoriler" EntityType="Self.Kategoriler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sorular" EntityType="Self.Sorular" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uyeler" EntityType="Self.Uyeler" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Anketler_ToKategoriler" Association="Self.FK_Anketler_ToKategoriler">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Anketler" EntitySet="Anketler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Anketler_ToUyeler" Association="Self.FK_Anketler_ToUyeler">
+            <End Role="Uyeler" EntitySet="Uyeler" />
+            <End Role="Anketler" EntitySet="Anketler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cevaplar_ToSorular" Association="Self.FK_Cevaplar_ToSorular">
+            <End Role="Sorular" EntitySet="Sorular" />
+            <End Role="Cevaplar" EntitySet="Cevaplar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cevaplar_ToUyeler" Association="Self.FK_Cevaplar_ToUyeler">
+            <End Role="Uyeler" EntitySet="Uyeler" />
+            <End Role="Cevaplar" EntitySet="Cevaplar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sorular_ToAnketler" Association="Self.FK_Sorular_ToAnketler">
+            <End Role="Anketler" EntitySet="Anketler" />
+            <End Role="Sorular" EntitySet="Sorular" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sorular_ToUyeler" Association="Self.FK_Sorular_ToUyeler">
+            <End Role="Uyeler" EntitySet="Uyeler" />
+            <End Role="Sorular" EntitySet="Sorular" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB01Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Anketler">
+          <Key>
+            <PropertyRef Name="AnketId" />
+          </Key>
+          <Property Name="AnketId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AnketAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AnketUyeId" Type="Int32" Nullable="false" />
+          <Property Name="AnketKayTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AnketDuzTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AnketKategoriId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kategoriler" Relationship="Self.FK_Anketler_ToKategoriler" FromRole="Anketler" ToRole="Kategoriler" />
+          <NavigationProperty Name="Uyeler" Relationship="Self.FK_Anketler_ToUyeler" FromRole="Anketler" ToRole="Uyeler" />
+          <NavigationProperty Name="Sorular" Relationship="Self.FK_Sorular_ToAnketler" FromRole="Anketler" ToRole="Sorular" />
+        </EntityType>
+        <EntityType Name="Cevaplar">
+          <Key>
+            <PropertyRef Name="CevapId" />
+          </Key>
+          <Property Name="CevapId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CevapSoruId" Type="Int32" Nullable="false" />
+          <Property Name="CevapMetin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CevapTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CevapUyeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Sorular" Relationship="Self.FK_Cevaplar_ToSorular" FromRole="Cevaplar" ToRole="Sorular" />
+          <NavigationProperty Name="Uyeler" Relationship="Self.FK_Cevaplar_ToUyeler" FromRole="Cevaplar" ToRole="Uyeler" />
+        </EntityType>
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="KategoriId" />
+          </Key>
+          <Property Name="KategoriId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KategoriAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Anketler" Relationship="Self.FK_Anketler_ToKategoriler" FromRole="Kategoriler" ToRole="Anketler" />
+        </EntityType>
+        <EntityType Name="Sorular">
+          <Key>
+            <PropertyRef Name="SorularId" />
+          </Key>
+          <Property Name="SorularId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SoruAnketId" Type="Int32" Nullable="false" />
+          <Property Name="SoruMetin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SoruKayTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SoruUyeId" Type="Int32" Nullable="false" />
+          <Property Name="SoruDuzTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Anketler" Relationship="Self.FK_Sorular_ToAnketler" FromRole="Sorular" ToRole="Anketler" />
+          <NavigationProperty Name="Cevaplar" Relationship="Self.FK_Cevaplar_ToSorular" FromRole="Sorular" ToRole="Cevaplar" />
+          <NavigationProperty Name="Uyeler" Relationship="Self.FK_Sorular_ToUyeler" FromRole="Sorular" ToRole="Uyeler" />
+        </EntityType>
+        <EntityType Name="Uyeler">
+          <Key>
+            <PropertyRef Name="UyeId" />
+          </Key>
+          <Property Name="UyeId" Type="Int32" Nullable="false" />
+          <Property Name="UyeAdSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UyeEposta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UyeKayTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UyeYetki" Type="Int32" Nullable="false" />
+          <Property Name="UyeParola" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Anketler" Relationship="Self.FK_Anketler_ToUyeler" FromRole="Uyeler" ToRole="Anketler" />
+          <NavigationProperty Name="Cevaplar" Relationship="Self.FK_Cevaplar_ToUyeler" FromRole="Uyeler" ToRole="Cevaplar" />
+          <NavigationProperty Name="Sorular" Relationship="Self.FK_Sorular_ToUyeler" FromRole="Uyeler" ToRole="Sorular" />
+        </EntityType>
+        <Association Name="FK_Anketler_ToKategoriler">
+          <End Role="Kategoriler" Type="Self.Kategoriler" Multiplicity="1" />
+          <End Role="Anketler" Type="Self.Anketler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="KategoriId" />
+            </Principal>
+            <Dependent Role="Anketler">
+              <PropertyRef Name="AnketKategoriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Anketler_ToUyeler">
+          <End Role="Uyeler" Type="Self.Uyeler" Multiplicity="1" />
+          <End Role="Anketler" Type="Self.Anketler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uyeler">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="Anketler">
+              <PropertyRef Name="AnketUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sorular_ToAnketler">
+          <End Role="Anketler" Type="Self.Anketler" Multiplicity="1" />
+          <End Role="Sorular" Type="Self.Sorular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Anketler">
+              <PropertyRef Name="AnketId" />
+            </Principal>
+            <Dependent Role="Sorular">
+              <PropertyRef Name="SoruAnketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cevaplar_ToSorular">
+          <End Role="Sorular" Type="Self.Sorular" Multiplicity="1" />
+          <End Role="Cevaplar" Type="Self.Cevaplar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sorular">
+              <PropertyRef Name="SorularId" />
+            </Principal>
+            <Dependent Role="Cevaplar">
+              <PropertyRef Name="CevapSoruId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cevaplar_ToUyeler">
+          <End Role="Uyeler" Type="Self.Uyeler" Multiplicity="1" />
+          <End Role="Cevaplar" Type="Self.Cevaplar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uyeler">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="Cevaplar">
+              <PropertyRef Name="CevapUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sorular_ToUyeler">
+          <End Role="Uyeler" Type="Self.Uyeler" Multiplicity="1" />
+          <End Role="Sorular" Type="Self.Sorular" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uyeler">
+              <PropertyRef Name="UyeId" />
+            </Principal>
+            <Dependent Role="Sorular">
+              <PropertyRef Name="SoruUyeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DB01Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Anketler" EntityType="Self.Anketler" />
+          <EntitySet Name="Cevaplar" EntityType="Self.Cevaplar" />
+          <EntitySet Name="Kategoriler" EntityType="Self.Kategoriler" />
+          <EntitySet Name="Sorular" EntityType="Self.Sorular" />
+          <EntitySet Name="Uyeler" EntityType="Self.Uyeler" />
+          <AssociationSet Name="FK_Anketler_ToKategoriler" Association="Self.FK_Anketler_ToKategoriler">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Anketler" EntitySet="Anketler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Anketler_ToUyeler" Association="Self.FK_Anketler_ToUyeler">
+            <End Role="Uyeler" EntitySet="Uyeler" />
+            <End Role="Anketler" EntitySet="Anketler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sorular_ToAnketler" Association="Self.FK_Sorular_ToAnketler">
+            <End Role="Anketler" EntitySet="Anketler" />
+            <End Role="Sorular" EntitySet="Sorular" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cevaplar_ToSorular" Association="Self.FK_Cevaplar_ToSorular">
+            <End Role="Sorular" EntitySet="Sorular" />
+            <End Role="Cevaplar" EntitySet="Cevaplar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cevaplar_ToUyeler" Association="Self.FK_Cevaplar_ToUyeler">
+            <End Role="Uyeler" EntitySet="Uyeler" />
+            <End Role="Cevaplar" EntitySet="Cevaplar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sorular_ToUyeler" Association="Self.FK_Sorular_ToUyeler">
+            <End Role="Uyeler" EntitySet="Uyeler" />
+            <End Role="Sorular" EntitySet="Sorular" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB01ModelStoreContainer" CdmEntityContainer="DB01Entities1">
+          <EntitySetMapping Name="Anketler">
+            <EntityTypeMapping TypeName="DB01Model.Anketler">
+              <MappingFragment StoreEntitySet="Anketler">
+                <ScalarProperty Name="AnketId" ColumnName="AnketId" />
+                <ScalarProperty Name="AnketAdi" ColumnName="AnketAdi" />
+                <ScalarProperty Name="AnketUyeId" ColumnName="AnketUyeId" />
+                <ScalarProperty Name="AnketKayTarih" ColumnName="AnketKayTarih" />
+                <ScalarProperty Name="AnketDuzTarih" ColumnName="AnketDuzTarih" />
+                <ScalarProperty Name="AnketKategoriId" ColumnName="AnketKategoriId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cevaplar">
+            <EntityTypeMapping TypeName="DB01Model.Cevaplar">
+              <MappingFragment StoreEntitySet="Cevaplar">
+                <ScalarProperty Name="CevapId" ColumnName="CevapId" />
+                <ScalarProperty Name="CevapSoruId" ColumnName="CevapSoruId" />
+                <ScalarProperty Name="CevapMetin" ColumnName="CevapMetin" />
+                <ScalarProperty Name="CevapTarih" ColumnName="CevapTarih" />
+                <ScalarProperty Name="CevapUyeId" ColumnName="CevapUyeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategoriler">
+            <EntityTypeMapping TypeName="DB01Model.Kategoriler">
+              <MappingFragment StoreEntitySet="Kategoriler">
+                <ScalarProperty Name="KategoriId" ColumnName="KategoriId" />
+                <ScalarProperty Name="KategoriAdi" ColumnName="KategoriAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sorular">
+            <EntityTypeMapping TypeName="DB01Model.Sorular">
+              <MappingFragment StoreEntitySet="Sorular">
+                <ScalarProperty Name="SorularId" ColumnName="SorularId" />
+                <ScalarProperty Name="SoruAnketId" ColumnName="SoruAnketId" />
+                <ScalarProperty Name="SoruMetin" ColumnName="SoruMetin" />
+                <ScalarProperty Name="SoruKayTarih" ColumnName="SoruKayTarih" />
+                <ScalarProperty Name="SoruUyeId" ColumnName="SoruUyeId" />
+                <ScalarProperty Name="SoruDuzTarih" ColumnName="SoruDuzTarih" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uyeler">
+            <EntityTypeMapping TypeName="DB01Model.Uyeler">
+              <MappingFragment StoreEntitySet="Uyeler">
+                <ScalarProperty Name="UyeId" ColumnName="UyeId" />
+                <ScalarProperty Name="UyeAdSoyad" ColumnName="UyeAdSoyad" />
+                <ScalarProperty Name="UyeEposta" ColumnName="UyeEposta" />
+                <ScalarProperty Name="UyeKayTarih" ColumnName="UyeKayTarih" />
+                <ScalarProperty Name="UyeYetki" ColumnName="UyeYetki" />
+                <ScalarProperty Name="UyeParola" ColumnName="UyeParola" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
