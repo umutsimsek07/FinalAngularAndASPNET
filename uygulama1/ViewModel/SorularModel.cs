@@ -14,5 +14,9 @@ namespace uygulama1.ViewModel
         public int SoruUyeId { get; set; }
         public System.DateTime SoruDuzTarih { get; set; }
         public int SoruCevapSayi { get; set; }
+
+        public string SoruAnketAdi { get; set; }
+
+        public string SoruCevap { get; set; }
     }
 }

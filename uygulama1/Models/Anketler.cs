@@ -26,9 +26,7 @@ namespace uygulama1.Models
         public System.DateTime AnketKayTarih { get; set; }
         public System.DateTime AnketDuzTarih { get; set; }
         public int AnketKategoriId { get; set; }
-        public int AnketSoruSayi { get; set; }
-
-
+    
         public virtual Kategoriler Kategoriler { get; set; }
         public virtual Uyeler Uyeler { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
