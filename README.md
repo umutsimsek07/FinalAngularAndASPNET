@@ -1,4 +1,4 @@
-# VizeAnket
+# FinalAnket
 20211129073
 
 ## VeriTabanı ve Swagger Tablosu Görüntüleri
