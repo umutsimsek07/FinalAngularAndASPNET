@@ -1,0 +1,23 @@
+.mat-stepper-vertical {
+    margin-top: 8px;
+  }
+  
+  .mat-form-field {
+    margin-top: 16px;
+  }
+.mat-card-subtitle{
+  padding: 0px;
+}  
+.mat-card-content{
+  max-height: 150px;
+  min-height: 75px;
+  margin: auto;
+}
+.mat-list-item{
+  background-color: #4D77FF;
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-family: 'M PLUS 2', sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  
+}

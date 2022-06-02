@@ -1,0 +1,76 @@
+
+
+<!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+  {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+</button> -->
+<h1 *ngIf="!apiServis.oturumKontrol()">Hoşgeldiniz Lütfen Giriş Yapınız</h1>
+
+<div class="container" *ngIf="apiServis.oturumKontrol()">
+      <mat-list role="list" *ngFor="let cevap of cevaplar">
+        <mat-list-item role="listitem">Anket Adı : {{cevap.CevapAnketAdi}}</mat-list-item>
+        <mat-list-item role="listitem">Soru Metni : {{cevap.CevapSoruMetin}}</mat-list-item>
+        <mat-list-item role="listitem">Cevap : {{cevap.CevapMetin}}</mat-list-item>
+        <mat-list-item role="listitem">Tarih : {{cevap.CevapTarih | date:'dd.MM.yyyy HH:mm'}}</mat-list-item>
+      </mat-list>
+  <button mat-raised-button (click)="GosterGizle()">
+    Anket Oluştur
+  </button>
+
+
+
+  <mat-vertical-stepper  *ngIf="gostergizle" orientation="vertical" [linear]="isLinear" #stepper >
+    <h2>Anket Oluştur</h2>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Kategori Seç</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Kategori</mat-label>
+          <mat-select formControlName="firstCtrl" placeholder="Kategori Seçiniz"
+            (selectionChange)="KategoriSec($event.value)" required>
+            <mat-option [value]="kat" *ngFor="let kat of kategoriler">{{kat.KategoriAdi}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup" >
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Anket</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Anket Seçiniz</mat-label>
+          <mat-select formControlName="secondCtrl" placeholder="Anket Seçiniz"
+            (selectionChange)="AnketSec($event.value)" required>
+            <mat-option [value]="kat" *ngFor="let kat of anketler">{{kat.AnketAdi}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="thirdFormGroup">
+      <form [formGroup]="thirdFormGroup">
+        <ng-template matStepLabel>Soru</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-form-field appearance="outline" style="width: 50%;">
+            <mat-label>Soru Seçiniz</mat-label>
+            <mat-select formControlName="thirdCtrl" placeholder="Soru Seçiniz"
+              (selectionChange)="SoruSec($event.value)">
+              <mat-option [value]="kat" *ngFor="let kat of sorular">{{kat.SoruMetin}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button  *ngFor="let kayit of cevaplar" (click)="Duzenle(kayit)">Next</button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-vertical-stepper>
+
+
+
+</div>

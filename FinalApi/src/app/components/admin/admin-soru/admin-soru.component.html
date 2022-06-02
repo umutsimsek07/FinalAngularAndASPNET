@@ -1,0 +1,63 @@
+<div class="container">
+  <h2>Sorular</h2>
+  <button mat-fab matTooltip="Soru Ekle" color="primary" (click)="Ekle()">
+    <mat-icon aria-label="label">add</mat-icon>
+  </button>
+<p>&nbsp;</p>
+
+  <mat-form-field appearance="outline" style="width: 50%;">
+    <mat-label>Anket Seçiniz</mat-label>
+    <mat-select placeholder="Anket Seçiniz" (selectionChange)="AnketSec($event.value)">
+        <mat-option [value]="kat" *ngFor="let kat of anketler">{{kat.AnketAdi}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="SoruMetin">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Soru Metni
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.SoruMetin}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="SoruCevapSayi">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Soru Cevap Sayssı
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.SoruCevapSayi}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="SoruKayTarih">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Anket Kayıt Tarihi
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.SoruKayTarih | date:'dd.MM.yyyy HH:mm:ss'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="SoruDuzTarih">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Anket Düzenleme Tarihi
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.SoruDuzTarih | date:'dd.MM.yyyy HH:mm:ss'}} </mat-cell>
+    </ng-container>
+
+  
+    <ng-container matColumnDef="detay">
+      <mat-header-cell *matHeaderCellDef> Detay
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit">
+        <button mat-icon-button color="primary" matTooltip="Cevap Liste" [routerLink]="['/admin/cevap',kayit.SorularId]">
+          <mat-icon aria-label="label" class="mat-18">list</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Soru Düzenle" (click)="Duzenle(kayit)">
+          <mat-icon aria-label="label" class="mat-18">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Soru Sil" (click)="Sil(kayit)">
+          <mat-icon aria-label="label" class="mat-18">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons>
+  </mat-paginator>
+</div>

@@ -1,0 +1,74 @@
+<div class="container">
+  <h2>Anketler</h2>
+  <button mat-fab matTooltip="Anket Ekle" color="primary" (click)="Ekle()">
+    <mat-icon aria-label="label">add</mat-icon>
+  </button>
+<p>&nbsp;</p>
+
+  <mat-form-field appearance="outline" style="width: 50%;">
+    <mat-label>Kategori Seçiniz</mat-label>
+    <mat-select placeholder="Kategori Seçiniz" (selectionChange)="KategoriSec($event.value)">
+        <mat-option [value]="kat" *ngFor="let kat of kategoriler">{{kat.KategoriAdi}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="AnketKategoriAdi">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Anket Kategori Adı
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.AnketKategoriAdi}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="AnketAdi">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Anket Adı
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.AnketAdi}} </mat-cell>
+    </ng-container>
+
+    
+
+
+    <ng-container matColumnDef="AnketKayTarih">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Anket Kayıt Tarihi
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.AnketKayTarih | date:'dd.MM.yyyy HH:mm:ss'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="AnketDuzTarih">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Anket Düzenleme Tarihi
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.AnketDuzTarih | date:'dd.MM.yyyy HH:mm:ss'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="AnketSoruSayi">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Anket Soru Sayısı
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.AnketSoruSayi}} </mat-cell>
+    </ng-container>
+
+
+
+
+    <ng-container matColumnDef="detay">
+      <mat-header-cell *matHeaderCellDef> Detay
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit">
+        <button mat-icon-button color="primary" matTooltip="Soru Liste" [routerLink]="['/admin/soru',kayit.AnketId]">
+          <mat-icon aria-label="label" class="mat-18">list</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Anket Düzenle" (click)="Duzenle(kayit)">
+          <mat-icon aria-label="label" class="mat-18">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Anket Sil" (click)="Sil(kayit)">
+          <mat-icon aria-label="label" class="mat-18">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons>
+  </mat-paginator>
+</div>

@@ -1,0 +1,47 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav style="background-color: #3F51B5;" #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <mat-toolbar class="mat-elevation-z8" style="color:white;">Kategoriler</mat-toolbar>
+    <mat-nav-list>
+      <a style="color:white;" mat-list-item *ngFor="let anket of kategoriler" >{{anket.KategoriAdi}} ({{anket.KategoriAnketSayi}})</a>
+      
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button  aria-label="Toogle sidenav" class="example-icon" aria-label="Example icon-button with menu icon" (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span [routerLink]="['/']">lightning Survey</span>
+      <span class="example-spacer"></span>
+      <button mat-icon-button matTooltip="Giriş Yap" class="example-icon favorite-icon"
+        aria-label="Example icon-button with person icon" [routerLink]="['/login']" *ngIf="!apiServis.oturumKontrol()">
+        <mat-icon>person</mat-icon>
+      </button>
+
+
+      <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Admin Paneli" class="example-icon favorite-icon"
+        aria-label="Example icon-button with how_to_reg icon" *ngIf="apiServis.oturumKontrol()">
+        <mat-icon>how_to_reg</mat-icon>
+        <mat-menu #menu="matMenu">
+          <!-- <button mat-menu-item [routerLink]="['/admin']">Admin Paneli</button> -->
+          <button mat-menu-item [routerLink]="['/admin/kategori']">Admin Kategoriler</button>
+          <button mat-menu-item [routerLink]="['/admin/anket']">Admin Anketler</button>
+          <button mat-menu-item [routerLink]="['/admin/uye']">Admin Uyeler</button>
+        </mat-menu>
+      </button>
+      <button mat-icon-button matTooltip="Üye Ol" class="example-icon "
+        aria-label="Example icon-button with person_add icon" *ngIf="!apiServis.oturumKontrol()" (click)="UyeEkle()">
+        <mat-icon>person_add</mat-icon>
+      </button>
+      
+      <button mat-icon-button (click)="OturumKapat()" matTooltip="Çıkış Yap" class="example-icon"
+        aria-label="Example icon-button with exit icon" *ngIf="apiServis.oturumKontrol()">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </mat-toolbar>
+    <!-- Add Contentasdasdasdasd Here -->
+    <router-outlet></router-outlet>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

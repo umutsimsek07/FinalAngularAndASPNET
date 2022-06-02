@@ -12,6 +12,10 @@ namespace uygulama1.ViewModel
         public string CevapMetin { get; set; }
         public System.DateTime CevapTarih { get; set; }
         public int CevapUyeId { get; set; }
+        public string CevapSoruMetin { get; set; }
+
+        public string CevapAnketAdi { get; set; }
+
 
     }
 }

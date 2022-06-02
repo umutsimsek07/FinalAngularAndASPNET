@@ -1,0 +1,51 @@
+<div class="container">
+  <h2>Cevaplar</h2>
+  <button mat-fab matTooltip="Cevap Ekle" color="primary" (click)="Ekle()">
+    <mat-icon aria-label="label">add</mat-icon>
+  </button>
+<p>&nbsp;</p>
+
+  <mat-form-field appearance="outline" style="width: 50%;">
+    <mat-label>Soru Seçiniz</mat-label>
+    <mat-select placeholder="Soru Seçiniz" (selectionChange)="SoruSec($event.value)">
+        <mat-option [value]="kat" *ngFor="let kat of sorular">{{kat.SoruMetin}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <ng-container matColumnDef="CevapMetin">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Cevap Metni
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.CevapMetin}} </mat-cell>
+    </ng-container>
+    
+
+    <ng-container matColumnDef="CevapTarih">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Cevap Düzenleme Tarihi
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.CevapTarih | date:'dd.MM.yyyy HH:mm:ss'}} </mat-cell>
+    </ng-container>
+
+  
+    <ng-container matColumnDef="detay">
+      <mat-header-cell *matHeaderCellDef> Detay
+      </mat-header-cell>
+      <mat-cell *matCellDef="let kayit">
+        <button mat-icon-button color="primary" matTooltip="Cevap Düzenle" (click)="Duzenle(kayit)">
+          <mat-icon aria-label="label" class="mat-18">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Cevap Sil" (click)="Sil(kayit)">
+          <mat-icon aria-label="label" class="mat-18">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons>
+  </mat-paginator>
+</div>
+
+

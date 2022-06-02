@@ -23,6 +23,7 @@ namespace uygulama1.Controllers
             {
                 KategoriId = x.KategoriId,
                 KategoriAdi = x.KategoriAdi,
+                KategoriAnketSayi=x.Anketler.Count()
             }).ToList();
             return liste;
         }
@@ -42,6 +43,7 @@ namespace uygulama1.Controllers
         }
         [HttpPost]
         [Route("api/kategoriekle")]
+
         public SonucModel KategoriEkle(KategoriModel model)
         {
             if (db.Kategoriler.Count(s => s.KategoriAdi == model.KategoriAdi) > 0)
@@ -117,7 +119,8 @@ namespace uygulama1.Controllers
                 AnketKayTarih = x.AnketKayTarih,
                 AnketDuzTarih = x.AnketDuzTarih,
                 AnketKategoriId = x.Kategoriler.KategoriId,
-                AnketUyeId = x.Uyeler.UyeId
+                AnketUyeId = x.Uyeler.UyeId,
+                AnketSoruSayi = x.Sorular.Count()
             }).ToList();
             return liste;
         }
@@ -216,7 +219,7 @@ namespace uygulama1.Controllers
             if (db.Sorular.Count(s=> s.SoruAnketId == AnketId) > 0)
             {
                 sonuc.islem = false;
-                sonuc.mesaj = "Üzerinde Soru Kaydı Olan Kategori Silinemez!";
+                sonuc.mesaj = "Üzerinde Soru Kaydı Olan Anket Silinemez!";
                 return sonuc;
             }
 
@@ -242,6 +245,9 @@ namespace uygulama1.Controllers
                 SoruDuzTarih = x.SoruDuzTarih,
                 SoruKayTarih = x.SoruKayTarih,
                 SoruUyeId = x.SoruUyeId,
+                SoruAnketAdi=x.Anketler.AnketAdi,
+                SoruCevapSayi = x.Cevaplar.Count()
+
             }).ToList();
             return liste;
         }
@@ -258,6 +264,8 @@ namespace uygulama1.Controllers
                SoruDuzTarih=x.SoruDuzTarih,
                SoruKayTarih=x.SoruKayTarih,
                SoruUyeId=x.SoruUyeId,
+               SoruCevapSayi = x.Cevaplar.Count()
+
            }).ToList();
             return liste;
         }
@@ -318,7 +326,7 @@ namespace uygulama1.Controllers
             db.SaveChanges();
 
             sonuc.islem = true;
-            sonuc.mesaj = "Cevap Düzenlendi";
+            sonuc.mesaj = "Soru Düzenlendi";
             return sonuc;
 
 
@@ -348,6 +356,7 @@ namespace uygulama1.Controllers
             sonuc.mesaj = "Soru Silindi";
             return sonuc;
         }
+
         #endregion
         #region Cevaplar
         [HttpGet]
@@ -361,13 +370,16 @@ namespace uygulama1.Controllers
                CevapMetin=x.CevapMetin,
                CevapSoruId=x.CevapSoruId,
                CevapTarih=x.CevapTarih,
-               CevapUyeId=x.CevapUyeId
+               CevapUyeId=x.CevapUyeId,
+               CevapSoruMetin=x.Sorular.SoruMetin,
+               CevapAnketAdi=x.Sorular.Anketler.AnketAdi,
+
 
             }).ToList();
             return liste;
         }
         [HttpGet]
-        [Route("api/Cevaplistebysoruid/{SorularId}")]
+        [Route("api/cevaplistebysoruid/{SorularId}")]
         public List<CevaplarModel> CevapListeBySoruId(int SorularId)
         {
             List<CevaplarModel> liste = db.Cevaplar.Where(s => s.CevapSoruId == SorularId).Select(x =>
@@ -436,7 +448,7 @@ namespace uygulama1.Controllers
             db.SaveChanges();
 
             sonuc.islem = true;
-            sonuc.mesaj = "Cevap Düzenlendi";
+            sonuc.mesaj = "Tebrikler Cevap kaydedildi";
             return sonuc;
 
 
@@ -531,7 +543,7 @@ namespace uygulama1.Controllers
                 sonuc.mesaj = "Uye Bulunamadı!";
                 return sonuc;
             }
-            //kayit.UyeId = model.UyeId;
+            kayit.UyeId = model.UyeId;
             kayit.UyeAdSoyad = model.UyeAdSoyad;
             kayit.UyeEposta = model.UyeEposta;
             kayit.UyeKayTarih = model.UyeKayTarih;

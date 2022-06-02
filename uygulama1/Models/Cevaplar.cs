@@ -19,8 +19,9 @@ namespace uygulama1.Models
         public string CevapMetin { get; set; }
         public System.DateTime CevapTarih { get; set; }
         public int CevapUyeId { get; set; }
-    
+
         public virtual Sorular Sorular { get; set; }
         public virtual Uyeler Uyeler { get; set; }
+
     }
 }
